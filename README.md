@@ -18,3 +18,6 @@ cp /etc/net/ifaces/(интерфейс)/options /etc/net/ifaces/(интерфе�
 ```
 service network restart
 ```
+```
+hostnamectl set-hostname (имя);exec bash
+```
