@@ -44,6 +44,7 @@ hostnamectl set-hostname (имя);exec bash
 ```
 mcedit /etc/net/sysctl.conf
 ```
+## 2. Установка nmtui
 ### Обновляем список пакетов и устанавливаем необходимые пакеты
 ```
 apt-get update && apt-get install -y NetworkManager-{daemon,tui}
@@ -69,6 +70,28 @@ nmcli connection show
 ```
 ```
 nmtui
+```
+## 3. Настройка тунеля
+### Заходим в интерфейс
+```
+nmtui
+```
+![](https://github.com/Danis3124234/Demo2024/blob/main/1.png)
+![](https://github.com/Danis3124234/Demo2024/blob/main/2.png)
+![](https://github.com/Danis3124234/Demo2024/blob/main/3.png)
+### Для BQ-R
+```
+nmcli connection modify BR-R ip-tunnel.ttl 64
+```
+```
+ip r add 192.168.0.0/25 dev gre1
+```
+### Для HQ-R
+```
+nmcli connection modify HQ-R ip-tunnel.ttl 64
+```
+```
+ip r add 192.168.0.128/27 dev gre1
 ```
 ###
 ```
