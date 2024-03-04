@@ -78,7 +78,17 @@ nmtui
 ```
 ![](https://github.com/Danis3124234/Demo2024/blob/main/1.png)
 ![](https://github.com/Danis3124234/Demo2024/blob/main/2.png)
+```
+Родительский 192.168.0.166
+Локальный 192.168.0.162
+Маска /30
+```
 ![](https://github.com/Danis3124234/Demo2024/blob/main/3.png)
+```
+Родительский 192.168.0.162
+Локальный 192.168.0.166
+Маска /30
+```
 ### Для BQ-R
 ```
 nmcli connection modify BR-R ip-tunnel.ttl 64
