@@ -117,7 +117,7 @@ vim /etc/frr/daemons
 ```
 systemctl enable --now frr
 ```
-### ![]()
+### ![](https://github.com/Danis3124234/alt-linux/blob/main/2.JPG)
 ```
 где:
 - configure terminal - переход в режим глобальной конфигурации
