@@ -112,13 +112,12 @@ apt-get update && apt-get install -y frr
 ```
 vim /etc/frr/daemons
 ```
-### фото
+### ![]()
 ### Включаем и добавляем в автозагрузку службу frr
 ```
 systemctl enable --now frr
 ```
-### фото
-### фото
+### ![]()
 ```
 где:
 - configure terminal - переход в режим глобальной конфигурации
