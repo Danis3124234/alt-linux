@@ -112,7 +112,7 @@ apt-get update && apt-get install -y frr
 ```
 vim /etc/frr/daemons
 ```
-### ![]()
+### ![](https://github.com/Danis3124234/alt-linux/blob/main/1.JPG)
 ### Включаем и добавляем в автозагрузку службу frr
 ```
 systemctl enable --now frr
