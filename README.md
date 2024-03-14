@@ -166,39 +166,155 @@ firewall-cmd --permanent --zone=public --add-masquerade
 ```
 firewall-cmd --reload
 ```
-###
+## 7. DHCP
+### Установка DHCP
 ```
+apt-get install -y dhcp-server
+```
+### Вошёл в файл
+```
+mcedit /etc/sysconfig/dhcpd 
+```
+### Указал интерфейс который смотрит на SRV
+```
+DHCPDARGS=ens224
+```
+### Далее следует настройка раздачи адресов, а для этого захожу в файл
+```
+mcedit /etc/dhcp/dhcpd.conf
+```
+### Прописываю конфиг
+```
+# dhcp.conf
 
-```
-###
-```
+default-lease-time 6000;
+max-lease-time 72000;
 
+subnet 192.168.0.0 netmask 255.255.255.128 {
+range 192.168.0.10 192.168.0.125;
+option routers 192.168.0.1;
+}
 ```
-###
+### Повторяю конфиг в файле /etc/dhcp/dhcpd.conf.example Запускаю и добавляю в автозагрузку слжубу
 ```
+systemctl enable --now dhcpd
+```
+## 8. Измерение пропускной способности сети между двумя узлами
+### Установка пакета
+```
+apt-get install -y iperf3
+```
+### Запуск службы
+```
+systemctl enable --now iperf3
+```
+### Запуск iperf3 в качестве клиента
+```
+iperf3 -c 192.168.0.162
+```
+## 9. Составление backup скриптов для сохранения конфигурации сетевых устройств
+### Создание скрипта
+```
+nano backup-script.sh
+```
+### Содержимое файла
+```
+#!/bin/bash
 
-```
-###
-```
+echo "Start backup!"
 
-```
-###
-```
+backup_dir="/etc"
+dest_dir="/opt/backup"
 
-```
-###
-```
+mkdir -p $dest_dir
+tar -p $dest_dir/$(hostname -s)-$(date +"%d.%m.%y").tgz $backup_dir
 
+echo "Done!"
 ```
-###
+### Назначение права на исполнение для данного файла
 ```
-
+chmod +x backup-script.sh
 ```
-###
+### Запуск скрипта
 ```
-
+./backup-script.sh
 ```
-###
+### Просмотр содержания архива
 ```
-
+tar -tf /opt/backup/hq-r-00.00.00.tgz | less
+```
+## 10. Настройка подключения по SSH для удаленного конфигурирования устройства
+### На HQ-SRV меняем порт с 22 на 2222
+```
+sed -i "s/#Port 22/Port 2222/g" /etc/openssh/sshd_config
+```
+### Перезагружаем службу sshd
+```
+systemctl restart sshd
+```
+### Проверка
+```
+ss -tlpn | grep sshd
+```
+### На HQ-R устанавливаем nftables
+```
+apt-get install -y nftables
+```
+### Включаем и добавляем в автозагрузку службу nftables
+```
+systemctl enable --now nftables
+```
+### Создаём правило
+```
+nft add table inet nat
+```
+### Добавляем цепочку в таблицу
+```
+nft add chain inet nat prerouting '{ type nat hook prerouting priority 0; }'
+```
+### Добавляем ещё одно правило
+```
+nft add rule inet nat prerouting ip daddr 192.168.0.161 tcp dport 22 dnat to 192.168.0.10:2222
+```
+### Сохраняем правила
+```
+nft list ruleset | tail -n 7 | tee -a /etc/nftables/nftables.nft
+```
+### Перезапускаем службу
+```
+systemctl restart nftables
+```
+### Проверка на BR-R
+```
+ssh admin@(адрес смотрящий в ISP)
+password
+hostname
+```
+## 11. Настройка контроль доступа до HQ-SRV по SSH
+### Установка nftables
+```
+apt-get update && apt-get install -y nftables
+```
+### Включаю и добавляю в автозагрузку
+```
+systemctl enable --now nftables
+```
+### Добавляю правило
+```
+nft add rule inet filter input ip saddr 192.168.0.170 tcp dport 2222 counter drop
+nft add rule inet filter input ip saddr 192.168.0.0/30 tcp dport 2222 counter drop
+```
+### Проверка
+```
+nft list ruleset
+```
+### В файле /etc/nftables/nftables.nft удаляю незакомментированные строчки Отправляю результат
+```
+nft list ruleset | tee -a /etc/nftables/nftables.nft
+```
+### Перезапускаю
+```
+systemctl restart nftables
+```
+### Проверка заключается в том, что подключиться не получится и будет выдано сообщение: "connect to host 192.168.0.170 port 2222: Connection timed out
 ```
