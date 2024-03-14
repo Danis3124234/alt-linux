@@ -89,7 +89,7 @@ nmtui
 Локальный 192.168.0.166
 Маска /30
 ```
-### Для BQ-R
+### Для BR-R
 ```
 nmcli connection modify BR-R ip-tunnel.ttl 64
 ```
