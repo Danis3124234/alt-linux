@@ -55,7 +55,7 @@ systemctl enable --now NetworkManager
 ```
 ### Для того, чтобы интерфейсы стали видимы в nmtui или nmcli - необходимо поправить параметр в файле /etc/net/ifaces/<ИМЯ_ИНТЕРФЕЙСА/options
 ```
-sed -i "s/NM_CONTROLLED=no/NM_CONTROLLED=yes/g" /etc/net/ifaces/ens33/options
+sed -i "s/NM_CONTROLLED=no/NM_CONTROLLED=yes/g" /etc/net/ifaces/ens160/options
 ```
 ### Перезапускаем службы "network" и "NetworkManager"
 ```
