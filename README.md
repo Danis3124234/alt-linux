@@ -197,7 +197,10 @@ range 192.168.0.10 192.168.0.125;
 option routers 192.168.0.1;
 }
 ```
-### Повторяю конфиг в файле /etc/dhcp/dhcpd.conf.example Запускаю и добавляю в автозагрузку слжубу
+* Повторяю конфиг в файле
+```
+/etc/dhcp/dhcpd.conf.example 
+```
 ```
 systemctl enable --now dhcpd
 ```
