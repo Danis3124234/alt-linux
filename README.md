@@ -143,6 +143,20 @@ passwd admin
 ```
 vim /etc/passwd
 ```
+# 6. Измерение пропускной способности сети между двумя узлами (HQ-R на ISP смотрит)
+```
+apt-get install -y iperf3
+
+```
+```
+systemctl enable --now iperf3
+```
+```
+ip r
+```
+```
+iperf3 -c 192.168.0.162(перввй адрес)
+```
 ## 6. NAT с помощью firewalld. (ISP, HQ-R, BR-R)
 ### Установка
 ```
