@@ -12,6 +12,10 @@
 | HQ-SRV | ens 192 | 192.168.0.2 | /25 | 192.168.0.1 |
 | BR-SRV | ens 192 | 192.168.0.130 | /27 |192.168.0.129 |
 ## 1. Настройка интерфейсов
+### Включение маршрутизации (Изменяем net.ipv4.ip_forward = 0 на net.ipv4.ip_forward = 1)
+```
+mcedit /etc/net/sysctl.conf
+```
 ### Изменение имени
 ```
 hostnamectl set-hostname (имя);exec bash
@@ -39,10 +43,6 @@ mcedit /etc/net/ifaces/(интерфейс)/ipv4route
 ### Перезагрузка интерфейсов
 ```
 service network restart
-```
-### Включение маршрутизации (Изменяем net.ipv4.ip_forward = 0 на net.ipv4.ip_forward = 1)
-```
-mcedit /etc/net/sysctl.conf
 ```
 ## 2. Установка nmtui
 ### Обновляем список пакетов и устанавливаем необходимые пакеты
