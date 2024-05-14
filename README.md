@@ -11,6 +11,29 @@
 | | ens 224 | 192.168.0.1 | /25 | |
 | HQ-SRV | ens 192 | 192.168.0.2 | /25 | 192.168.0.1 |
 | BR-SRV | ens 192 | 192.168.0.130 | /27 |192.168.0.129 |
+
+# Скачиваем 
+```
+apt-get update
+```
+* Тунель (HQ-R BR-R)
+```
+apt-get update && apt-get install -y NetworkManager-{daemon,tui}
+```
+* FRR (HQ-R BR-R)
+```
+apt-get update && apt-get install -y frr
+```
+* DHCP (HQ-R)
+```
+apt-get install -y dhcp-server
+```
+* IPERF3 (HQ-R)
+```
+apt-get install -y iperf3
+```
+* Пользователь не скачиваем
+
 ## 1. Настройка интерфейсов
 ### Включение маршрутизации (Изменяем net.ipv4.ip_forward = 0 на net.ipv4.ip_forward = 1)
 ```
